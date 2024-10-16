@@ -40,7 +40,7 @@ input[type=submit] {
 }
 
 input[type=submit]:hover {
-  background-color: #234a85;
+  background-color: #242527;
 }
 
 input[type=reset] {
@@ -72,7 +72,7 @@ input[type=button], button {
 }
 
 input[type=button]:hover, button:hover {
-  background-color: #234a85;
+  background-color: #242527;
 }
 
 fieldset {
