@@ -63,6 +63,10 @@
   .welcome{
     font-size: 6em;
     color: #3079e6;
+    background: linear-gradient(to right, #3079e6, #7030e6, #c230e6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
   }
 
   .empresa{
