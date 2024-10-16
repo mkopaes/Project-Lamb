@@ -20,7 +20,8 @@ h1 {
 }
 
 main{
-  min-height: 550px;
+  /* min-height: 550px; */
+  min-height: 65vh;
   padding: 20px;
   background-image: linear-gradient(to bottom, white, var(--cor-gray) 95%);
 }
