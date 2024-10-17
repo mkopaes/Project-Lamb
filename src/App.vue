@@ -1,12 +1,12 @@
 <script setup>
   import { RouterLink, RouterView } from 'vue-router';
-  import Card from './components/Card.vue'
+  import Banner from './components/Banner.vue'
   import Navbar from './components/Navbar.vue';
   import MyFooter from './components/MyFooter.vue';
   
   defineOptions({
     components:{
-      Card,
+      Banner,
       Navbar,
       MyFooter
     }
@@ -15,7 +15,7 @@
 
 <template>
   <header>
-    <Card />
+    <Banner />
     <Navbar />
   </header>
   <main>
@@ -23,3 +23,9 @@
   </main>
   <MyFooter />
 </template>
+
+<style>
+  main{
+    background-image: linear-gradient(to right, var(--cor-2), var(--cor-4), var(--cor-5));
+  }
+</style>

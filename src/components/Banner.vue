@@ -1,0 +1,45 @@
+<script setup>
+  defineOptions({
+    nome: 'Banner'
+  })
+</script>
+
+<template>
+  <section id="banner">
+    <img src="/img/logo.png" alt="logo">
+    <h1>Sistema de Gerenciamento de Cadastros (SIGC)</h1>
+  </section>
+</template>
+
+<style scoped>
+  #banner {
+    width: 100%;
+    height: 280px;
+    background-color: #3D3D3D;
+    background-image: url('/img/pattern.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+  }
+
+  #banner img{
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+  }
+
+  #banner h1 {
+    min-width: 500px;
+    margin: 10px 0px; 
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    font-size: clamp(2em, 3vw, 3.5em);
+    color: white;
+  }
+</style>

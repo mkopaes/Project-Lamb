@@ -3,74 +3,70 @@
 </script>
 
 <template>
-  <article class="home">
-    <h1 class="home">
-      <span class="welcome">Boas Vindas</span> 
-      <span class="empresa"><br>Sistema de Gerenciamento de Cadastros (SIGC)</span> 
-    </h1>
-    <p class="home">
-      Este é um sistema simples para a realização de operações CRUD, utilizando o conceito de API RESTful. Meu nome é Murilo, sou um desenvolvedor em início de carreira, buscando constantemente adquirir novos conhecimentos e aprimorar minhas habilidades na área de programação. Este projeto foi desenvolvido como parte de um conjunto de testes, com foco na aplicação prática das seguintes tecnologias:
+  <section class="content">
+    <section class="title">
+      <h1>Boas-vindas</h1>
+    </section>
+    <section class="text">
+      <p id="bio">Este é um sistema simples para a realização de operações CRUD, utilizando o conceito de API RESTful. Meu nome é Murilo, sou um desenvolvedor em início de carreira, buscando constantemente adquirir novos conhecimentos e aprimorar minhas habilidades na área de programação. Este projeto foi desenvolvido como parte de um conjunto de testes, com foco na aplicação prática das seguintes tecnologias:</p>
       <ul>
         <li><a href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript" target="_blank">JavaScript</a></li>
         <li><a href="https://vuejs.org/" target="_blank">VueJS</a></li>
         <li><a href="https://www.php.net/" target="_blank">PHP</a></li>
         <li><a href="https://splitphp.org" target="_blank">SplitPHP</a></li>
       </ul>
-    </p>
-  </article>
+    </section>
+  </section>
 </template>
 
 <style scoped>
-  article{
+  .text{
     min-width: 400px;
-    margin: auto;
-    padding: 10px;
-    text-align: center;
+    max-width: 1000px;
+    padding: 30px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: start;
   }
 
-  h1{
-    font-size: 1em;
-  }
-
-  p {
-    max-width: 800px;
-    margin: auto;
-    margin-top: 15px;
+  p#bio {
+    max-width: 1000px;
     line-height: 30px;
-    color: #444;
-    font-style: italic;
+    font-size: 1.1em;
+    text-align: left;
+    color: var(--cor-black);
+  }
+
+  ul{
+    height: 40px;
+    width: 100%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    border: 1px solid var(--cor-black);
+    border-radius: 10px;
   }
 
   li {
-    margin: 0px auto;
-    font-size: 1.2em;
-    line-height: 35px;
-    text-decoration: underline;
-    color: #181818;
+    width: 25%;
     list-style: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    line-height: 35px;
   }
-
-  img{
-    width: 500px;
-    margin: 60px 0;
-    border-radius: 5px;
-  }
-
+  
   a{
-    color: #161616;
+    color: var(--cor-black);
+    text-decoration: underline;
   }
 
-  .welcome{
-    font-size: 6em;
-    color: #3079e6;
-    background: linear-gradient(to right, #3079e6, #7030e6, #c230e6);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-  }
-
-  .empresa{
-    font-size: 3.2em;
-    color: #444
+  a:hover{
+    background: linear-gradient(to right, var(--cor-2), var(--cor-4), var(--cor-5));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 </style>

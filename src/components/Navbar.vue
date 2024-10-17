@@ -18,6 +18,7 @@
   nav {
     background-color: #0f0f0f; 
     padding: 12px;
+    padding-left: 40px;
     text-align: start;
   }
 
@@ -30,7 +31,11 @@
     transition: .4s;
   }
 
-  nav > a:hover {
-  color: #3079e6;
+  a:hover {
+    color: var(--cor-2);
+    background: linear-gradient(to right, var(--cor-2), var(--cor-4), var(--cor-5));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 </style>

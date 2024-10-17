@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+  border-spacing: 0px;
+}
+
+table th {
+  width: calc(100%/6);
+  padding: 15px;
+  background-color: var(--cor-gray3);
+  text-align: center;
+  color: white;
+}
+
+table td {
+  width: calc(100%/6);
+  padding: 15px;
+}
+
+table tr {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  background-color: rgba(55, 41, 145, 0.05);
+}
+
+table tr:nth-child(odd) {
+  background-color: rgba(55, 41, 145, 0.3);
+}

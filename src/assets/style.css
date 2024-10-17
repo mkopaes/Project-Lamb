@@ -2,30 +2,57 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-:root {
-  --cor-1: rgba(28, 42, 80, 0.801);
-  --cor-2: #538de4;
-  --cor-3: #32e5f1;
-  --cor-gray: #4e526d;
-  --cor-black: #0f0f0f;
-}
+@import url('mybox.css');
 
-h1 {
-  color: var(--cor-1);
+:root {
+  --cor-1: #1c2a50cc;
+  --cor-2: #3079e6;
+  --cor-3: #6497e4;
+  --cor-4: #7030e6;
+  --cor-5: #c230e6;
+  --cor-gray: #4e526d;
+  --cor-gray2: #3e3e3e;
+  --cor-gray3: #242424;
+  --cor-black: #0f0f0f;
+  --cor-link: rgba(0, 214, 218, 0.735);
 }
 
 * {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
 }
 
+html, body{
+  height: 100%;
+}
+
+div#app{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
 main{
-  /* min-height: 550px; */
-  min-height: 65vh;
-  padding: 20px;
-  background-image: linear-gradient(to bottom, white, var(--cor-gray) 95%);
+  flex-grow: 1;
+  background: #000;
+  /* background-image: linear-gradient(to bottom, white, var(--cor-gray) 95%); */
+}
+
+h1 {
+  color: var(--cor-1);
+  font-size: 3em;
 }
 
 a{
   text-decoration: none;
+}
+
+a:hover{
+  background: linear-gradient(to right, var(--cor-2), var(--cor-4), var(--cor-5));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }

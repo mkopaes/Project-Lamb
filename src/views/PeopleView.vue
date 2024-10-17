@@ -1,30 +1,70 @@
 <script setup>
-  import MyTableHeader from '@/components/MyTableHeader.vue';
+  import { ref, onMounted } from 'vue';
+  const people = ref([]);
+
+  // Chamada da API quando o componente é montado
+  onMounted(async () => {
+    try {
+      // const response = await fetch('https://sua-api.com/pessoas'); // Substitua pela URL da sua API
+      const response = await fetch('http://localhost:3000/people'); // Substitua pela URL da sua API
+      if (!response.ok) {
+        throw new Error('Erro ao buscar dados');
+      }
+      const data = await response.json();
+      people.value = data; // Salvando os dados no estado
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  const fields = [
+    'Nome', 
+    'Data de Nasc', 
+    'Sexo', 
+    'Etnia', 
+    'Profissão'
+  ]
+  
+  defineOptions({
+    name: 'PeopleView',
+  })
 </script>
 
 <template>
-  <div class="wrapper">
-    <h1>Listagem de Pessoas</h1>
+  <section class="content">
+    <section class="title">
+      <h1>Listagem de Pessoas</h1>
+    </section>
+
     <table>
-      <MyTableHeader />
-      <tbody>
-        <!-- <tr v-for="person in people" :key="person.id">
+      <thead>
+        <tr>
+          <th v-for="(item, index) in fields" :key="index">{{ item }}</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>  
+        <tr v-for="person in people" :key="person.id">
           <td>{{ person.name }}</td>
           <td>{{ person.birthDate }}</td>
           <td>{{ person.gender }}</td>
           <td>{{ person.ethnicity }}</td>
           <td>{{ person.profession }}</td>
-          <td>
-            <router-link :to="{ name: 'EditPerson', params: { id: person.id } }">Editar</router-link>
-            <button @click="deletePerson(person.id)">Deletar</button>
+          <td class="actions">
+            <button class="table-btn">
+              <router-link :to="{ name: 'EditPerson', params: { id: person.id } }">Editar</router-link>
+            </button>
+            <button @click="deletePerson(person.id)" class="table-btn">Deletar</button>
           </td>
-        </tr> -->
+        </tr>
       </tbody>
     </table>
-  </div>
+  </section>
 </template>
 
-<style scoped>
+<style>
+@import url('../assets/table.css');
+
 @media (min-width: 1024px) {
   .about {
     min-height: 100vh;
@@ -33,30 +73,36 @@
   }
 }
 
-h1{
-  margin-bottom: 20px;
-  padding: 10px;
-  text-align: center;
-  font-size: 4em;
+.actions {
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-items: center;
 }
 
-table {
-  min-width: 400px;
-  max-width: 1200px;
-  border-spacing: 0px;
-  border: 0.5px solid rgba(28, 42, 80, 0.247);
-  margin: 10px auto;
+.table-btn{
+  height: 40px;
+  width: 80px;
+  margin: 2px;
+  background-color: var(--cor-black);
+  border: none;
+  border-radius: 5px;
+  color: white;
 }
 
-table td {
-  padding: 5px;
+a {
+  text-decoration: none;
+  color: white;
 }
 
-table tr {
-  background-color: rgba(55, 41, 145, 0.05);
+a:hover{
+  color: white;
 }
 
-table tr:nth-child(odd) {
-  background-color: rgba(55, 41, 145, 0.3);
+button:hover{
+  background-color: var(--cor-gray2);
+  cursor: pointer;
 }
+
 </style>
