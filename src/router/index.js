@@ -22,10 +22,12 @@ const router = createRouter({
       component: () => import('../views/FormView.vue')
     },
     {
-      path: '/person/edit/:id',
+      path: '/people/edit/:id',
       name: 'EditPerson',
 
-      component: () => import('../views/FormView.vue')
+      component: () => import('../views/FormView.vue'),
+
+      props: (route) => ({ id: route.params.id, isEditing: true})
     }
   ]
 })

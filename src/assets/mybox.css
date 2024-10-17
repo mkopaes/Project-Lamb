@@ -1,6 +1,6 @@
 .content {
   min-width: 400px;
-  max-width: 1000px;
+  max-width: calc(100vw - 100px);
   margin: 60px auto;
   background-color: #fff;
   border-radius: 20px;
@@ -15,6 +15,7 @@
   border-top-right-radius: 20px;
   border-top-left-radius: 20px;
   background-color: var(--cor-black);
+  font-size: clamp(0.5em 2vw 1.2em);
 }
 
 .title > h1{
@@ -23,4 +24,10 @@
   text-align: center;
   font-weight: bold;
   color: white;
+}
+
+@media (min-width: 1100px){
+  .content{
+    max-width: 1000px;
+  }
 }

@@ -63,60 +63,76 @@
       }
     ]
   },
-  "status": [
+  "attributes": [
     {
       "id": 1,
-      "tipo": "Solicitado"
+      "type": "Nome"
     },
     {
       "id": 2,
-      "tipo": "Em produção"
+      "type": "Nascimento"
     },
     {
       "id": 3,
-      "tipo": "Finalizado"
+      "type": "Sexo"
+    },
+    {
+      "id": 4,
+      "type": "Etnia"
+    },
+    {
+      "id": 5,
+      "type": "Profissão"
     }
   ],
   "people": [
     {
-      "id": 1,
-      "name": "João",
-      "birthDate": "J",
-      "gender": "J",
-      "ethnicity": "J",
-      "profession": "J"
-    },
-    {
-      "id": 2,
+      "id": "7993",
       "name": "Eagle",
-      "birthDate": "J",
-      "gender": "J",
-      "ethnicity": "J",
-      "profession": "J"
+      "birthDate": "2005-01-29",
+      "gender": "Outro",
+      "ethnicity": "Parda",
+      "profession": "Designer e Garoto de Programa"
     },
     {
-      "id": 3,
+      "id": "645b",
+      "name": "Ilan",
+      "birthDate": "2003-05-27",
+      "gender": "Masculino",
+      "ethnicity": "Branca",
+      "profession": "Designer"
+    },
+    {
+      "id": "f047",
+      "name": "Laman",
+      "birthDate": "2036-12-11",
+      "gender": "Outro",
+      "ethnicity": "Negra",
+      "profession": "Atleta de E-sports"
+    },
+    {
+      "id": "e3d5",
+      "name": "dasdas",
+      "birthDate": "2036-10-17",
+      "gender": "Masculino",
+      "ethnicity": "Negra",
+      "profession": "dasd"
+    },
+    {
+      "id": "d0ce",
+      "name": "asdsadfsaf",
+      "birthDate": "2055-09-18",
+      "gender": "Feminino",
+      "ethnicity": "Negra",
+      "profession": "adaqr"
+    },
+    {
+      "id": "eba3",
       "name": "Portela",
-      "birthDate": "J",
-      "gender": "J",
-      "ethnicity": "J",
-      "profession": "J"
-    },
-    {
-      "id": 4,
-      "name": "Tarikão",
-      "birthDate": "J",
-      "gender": "J",
-      "ethnicity": "J",
-      "profession": "J"
-    },
-    {
-      "id": 5,
-      "name": "Syeth",
-      "birthDate": "J",
-      "gender": "J",
-      "ethnicity": "J",
-      "profession": "J"
+      "birthDate": "2000-04-03",
+      "gender": "Masculino",
+      "ethnicity": "Branca",
+      "profession": "Testador de Colchões"
     }
   ]
 }

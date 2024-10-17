@@ -1,5 +1,7 @@
 <script setup>
-
+  defineOptions({
+    name: 'HomeView'
+  })
 </script>
 
 <template>
@@ -23,7 +25,7 @@
   .text{
     min-width: 400px;
     max-width: 1000px;
-    padding: 30px;
+    padding: 40px;
     
     display: flex;
     flex-direction: column;
@@ -42,12 +44,11 @@
   ul{
     height: 40px;
     width: 100%;
-    margin: 20px auto;
+    margin: 30px auto 0px auto;
     display: flex;
     flex-direction: row;
     text-align: center;
-    border: 1px solid var(--cor-black);
-    border-radius: 10px;
+    gap:20px;
   }
 
   li {
@@ -56,10 +57,13 @@
     font-size: 1.2em;
     font-weight: bold;
     line-height: 35px;
+    background-color: var(--cor-black);
+    border: 1px solid var(--cor-black);
+    border-radius: 10px;
   }
   
   a{
-    color: var(--cor-black);
+    color: white;
     text-decoration: underline;
   }
 
@@ -68,5 +72,15 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  @media (max-width: 800px){
+    ul{
+      flex-direction: column;
+      height: auto;
+    }
+    li {
+      width: 100%;
+    }
   }
 </style>

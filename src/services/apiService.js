@@ -7,7 +7,7 @@
 //   },
 // });
 
-export default {
+// export default {
 //   getPeople() {
 //     return apiClient.get('/people');
 //   },
@@ -23,4 +23,4 @@ export default {
 //   deletePerson(id) {
 //     return apiClient.delete(`/people/${id}`);
 //   },
-};
+// };
