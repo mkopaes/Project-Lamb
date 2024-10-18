@@ -26,8 +26,6 @@ const router = createRouter({
       name: 'EditPerson',
 
       component: () => import('../views/FormView.vue'),
-
-      props: (route) => ({ id: route.params.id, isEditing: true})
     }
   ]
 })

@@ -1,38 +1,52 @@
 <script setup>
   import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  import  {getAttributes, getPeople, deletePerson } from '../services/apiService';
   
   defineOptions({
     name: 'PeopleView',
   })
 
   // ------- Data
+  const router = useRouter();
   const attributes = ref([]);
   const people = ref([]);
 
   // ------- Methods
   onMounted(async () => {
     try {
-      const response = await fetch('http://localhost:3000/attributes');
-      if (!response.ok) {
-        throw new Error('Erro ao buscar dados');
-      }
-      const data_attributes = await response.json();
-      attributes.value = data_attributes;
+      attributes.value = await getAttributes();
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao carregar atributos:', error);
     }
-
     try {
-      const response = await fetch('http://localhost:3000/people');
-      if (!response.ok) {
-        throw new Error('Erro ao buscar dados');
-      }
-      const data_people = await response.json();
-      people.value = data_people;
+      people.value = await getPeople();
     } catch (error) {
-      console.error(error);
+      console.error('Erro ao carregar pessoas:', error);
     }
   });
+
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
+    return new Date(dateString).toLocaleDateString('pt-BR', options)
+  }
+ 
+  const editPerson = (id) => {
+    router.push({
+      name: 'EditPerson',
+      params: { id },
+      query: { isEditing: 'true' }
+    })
+  }
+
+  const removePerson = async (id) => {
+    try {
+      await deletePerson(id);
+      people.value = await getPeople();
+    } catch (error) {
+      console.error('Erro ao deletar pessoa:', error);
+    }
+  };
 </script>
 
 <template>
@@ -50,20 +64,24 @@
       <tbody>  
         <tr v-for="person in people" :key="person.id">
           <td data-label="Nome">{{ person.name }}</td>
-          <td data-label="Nascimento">{{ person.birthDate }}</td>
+          <td data-label="Nascimento">{{ formatDate(person.birthDate) }}</td>
           <td data-label="Sexo">{{ person.gender }}</td>
           <td data-label="Etnia">{{ person.ethnicity }}</td>
           <td data-label="Profissão">{{ person.profession }}</td>
           <td data-label="Ações">
             <div class="btn-container">
-              <button><router-link :to="{ name: 'EditPerson', params: { id: person.id } }" >Edit</router-link></button>
-              <button @click="deletePerson(person.id)">Deletar</button>
+              <button @click="editPerson(person.id)">Editar</button>
+              <button @click="removePerson(person.id)">Deletar</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
+    <router-link to="/people/new">
+      <button class="new-register-btn">Adicionar novo cadastro</button>
+    </router-link>
   </section>
+  <router-link to="/" class="go-back">Voltar</router-link>
 </template>
 
 <style scoped>
@@ -71,6 +89,7 @@
     color: white;
     text-decoration: none;
   }
+
   .btn-container{
     display: flex;
     flex-direction: column;
@@ -91,6 +110,15 @@
     background-color: var(--cor-gray2);
     cursor: pointer;
   }
+
+  .new-register-btn{
+    padding: 15px;
+    background-color: var(--cor-black);
+    border-radius: 0 0 20px 20px;
+    font-size: 1.2em;
+  }
+
+  
 
   @media screen and (max-width: 768px) {
     .stackable-table,
@@ -116,7 +144,6 @@
       padding: 15px;
     }
 
-    /* Cada célula agora tem seu próprio label, que era o nome da coluna */
     .stackable-table td {
       display: flex;
       flex-direction: row;
@@ -126,7 +153,6 @@
       align-items: center;
     }
 
-    /* Mostra o label correspondente à célula */
     .stackable-table td::before {
       content: attr(data-label);
       position: absolute;

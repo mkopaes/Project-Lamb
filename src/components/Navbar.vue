@@ -1,29 +1,36 @@
-<script>
-  export default{
+<script setup>
+  defineOptions({
     name: 'Navbar'
-  }
+  })
 </script>
 
 <template>
   <div class="wrapper">
       <nav>
         <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/people">Lista</RouterLink>
         <RouterLink to="/people/new">Cadastrar</RouterLink>
+        <RouterLink to="/people">Lista</RouterLink>
       </nav>
   </div>
 </template>
 
 <style scoped>
   nav {
-    background-color: #0f0f0f; 
     padding: 12px;
-    padding-left: 40px;
+    display: flex;
+    align-items: center;
     text-align: start;
+    justify-content: space-evenly;
+    background-color: #0f0f0f; 
+    gap: 50px;
+  }
+
+  .router-link-active {
+    color: var(--cor-2);
   }
 
   nav > a {
-    margin-right: 50px;
+    /* margin-right: 50px; */
     font-size: 1.2em;
     font-weight: 500;
     text-decoration: none;
@@ -32,7 +39,6 @@
   }
 
   a:hover {
-    color: var(--cor-2);
     background: linear-gradient(to right, var(--cor-2), var(--cor-4), var(--cor-5));
     -webkit-background-clip: text;
     background-clip: text;

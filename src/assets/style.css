@@ -39,7 +39,6 @@ div#app{
 main{
   flex-grow: 1;
   background: #000;
-  /* background-image: linear-gradient(to bottom, white, var(--cor-gray) 95%); */
 }
 
 h1 {

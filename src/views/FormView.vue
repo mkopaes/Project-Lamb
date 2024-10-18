@@ -1,15 +1,17 @@
 <script setup>
   import { ref, onMounted } from 'vue';
-  import { reactive } from 'vue';
+  import { useRouter, useRoute } from'vue-router';
+  import { getPersonById, createPerson, updatePerson} from '../services/apiService';
 
   defineOptions({
     name: 'FormView'
   })
 
   // ------- Data
-  const data = ref([]);
+  const router = useRouter();
+  const route = useRoute();
 
-  const person = reactive({
+  const person = ref({
     name: '',
     birthDate: '',
     gender: '',
@@ -17,73 +19,34 @@
     profession: '',
   });  
 
-  // const isEditing = ref(route.params.isEditing);
-  const isEditing = true;
-  const msg = null;
+  const isEditing = ref(route.query.isEditing === 'true');
+  const id = route.params.id;
 
   // ------- Methods
-  const createPerson = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/people', {
-        method: 'POST',
-        headers:{
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(person),
-      });
-
-      if (!response.ok) {
-        throw new Error('Erro ao enviar os dados');
-      }
-
-      const data = await response.json();
-      console.log('Pessoa criada:', data);
-
-      resetForm();
-    } catch(error) {
-      console.error('Erro ao enviar o formulário:', error);
+  onMounted(async () => {
+    if(isEditing.value){
+      const personData = await getPersonById(id)
+      person.value = personData
     }
+  });
+
+  const handleSubmit = async () => {
+    if(isEditing.value){
+      try {
+        await updatePerson(id, person.value);
+      } catch (error) {
+        console.error('Erro ao atualizar pessoa:', error);
+      }
+    } else {
+      try {
+        await createPerson(person.value);
+        router.push({ name: 'PeopleView' })
+      } catch (error) {
+        console.error('Erro ao criar pessoa:', error);
+      }
+    }
+    router.push({ name: 'PeopleView' })
   };
-
-  const readPerson = async () => {
-    try {
-      const response = await fetch(`http://localhost:3000/people/${personId.value}`);
-    
-      if (!response.ok) {
-        throw new Error('Erro ao buscar os dados');
-      }
-    
-      const data = await response.json();
-      person.value = data;
-      console.log('Pessoa editada:', data);
-
-    } catch (error) {
-      console.error('Erro ao buscar a pessoa:', error);
-      person.value = null;
-    }
-  };
-  
-  const updatePerson = async () => {
-    try {
-      const personId = route.params.id;
-    
-      const response = await fetch(`http://localhost:3000/people/${personId.value}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(person.value),
-      });
-
-      if(!response.ok){
-        throw new Error('Erro ao atualizar a pessoa');
-      }
-
-
-    } catch(error) {
-      console.error('Erro ao atualizar pessoa:', error);
-    }
-  }
 
   const resetForm = () => {
     person.name = '';
@@ -91,46 +54,41 @@
     person.gender = '';
     person.ethnicity = '';
     person.profession = '';
-  }
-
+  };
+ 
 </script>
 
 <template>
   <section class="content">
-
     <section class="title">
       <h1>{{ isEditing ? 'Editar Cadastro' : 'Ficha de Cadastro' }}</h1>
     </section>
-
-    <form class="person-form"  @submit.prevent="createPerson">
+    <form class="person-form"  @submit.prevent="handleSubmit">
       <div class="row">
         <div class="input-container">
           <label for="name">Nome </label>
-          <input type="text" id="name" name="name" v-model="person.name" placeholder="Digite o seu nome" maxlength="100" required />
+          <input v-model="person.name" type="text" id="name" name="name" placeholder="Digite o seu nome" maxlength="100" required />
         </div>
       </div>
-
       <div class="row">
         <div class="input-container">
           <label for="birthDate">Data de Nascimento </label>
-          <input type="date" id="birthDate" name="birthDate" v-model="person.birthDate" required />
+          <input v-model="person.birthDate" type="date" id="birthDate" name="birthDate" required />
         </div>
-
         <div class="input-container">
           <label for="gender">Sexo </label>
-          <select id="gender" name="gender" v-model="person.gender" required>
+          <select v-model="person.gender" id="gender" name="gender" required>
             <option value="">Selecione</option>
             <option value="Masculino">Masculino</option>
             <option value="Feminino">Feminino</option>
             <option value="Outro">Outro</option>
           </select>
         </div>
-      </div>
-      
+      </div>     
       <div class="row">
         <div class="input-container">
           <label for="ethnicity">Etnia </label>
-          <select id="ethnicity" name="ethnicity" v-model="person.ethnicity" required >
+          <select v-model="person.ethnicity" id="ethnicity" name="ethnicity" required >
             <option value="">Selecione</option>
             <option value="Amarela">Amarela</option>
             <option value="Branca">Branca</option>
@@ -139,13 +97,11 @@
             <option value="Parda">Parda</option>
           </select>
         </div>
-      
         <div class="input-container">
           <label for="profession">Profissão </label>
-          <input type="text" id="profession" name="profession" v-model="person.profession" maxlength="60" placeholder="Área de atuação" required />
+          <input v-model="person.profession" type="text" id="profession" name="profession" maxlength="60" placeholder="Área de atuação" required />
         </div>
       </div>
-
       <div class="row">
         <div class="input-container">
           <button type="submit" id="submit" name="submit">{{ isEditing ? 'Atualizar' : 'Cadastrar' }}</button>
@@ -160,8 +116,15 @@
     max-width: 700px;
   }
 
+  .content .go-back{
+    font-weight: bold;
+    font-size: 0.9em;
+    color: #777;
+  }
+
   .person-form {
     margin: 30px auto;
+    margin-bottom: 0px;
     padding-bottom: 25px;
   }
 
