@@ -1,0 +1,6 @@
+config.ini
+/application/cache
+/application/log
+/public/resources/upload/*
+!/public/resources/upload/.placeholer
+SplitPHP.pem

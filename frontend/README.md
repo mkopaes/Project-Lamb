@@ -25,7 +25,14 @@ Este é um sistema simples para a realização de operações CRUD, utilizando o
   npm install
 ```
 ## Uso
-
+1. Criamos um servidor local para rodar nosso front-end
+```bash
+  npm run dev
+```
+2. Se não existir um back-end, simulamos um
+```bash
+  npm run backend
+```
 
 ## Licença
   Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.

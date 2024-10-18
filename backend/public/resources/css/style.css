@@ -4,6 +4,7 @@
 
 @import url('mybox.css');
 @import url('table.css');
+@import url('footer.css');
 
 :root {
   --cor-1: #1c2a50cc;
@@ -26,8 +27,7 @@
 }
 
 html, body{
-  display: flex;
-  flex-direction: column;
+  height: 100%;
   background-image: linear-gradient(to right, var(--cor-2), var(--cor-4), var(--cor-5));
 }
 

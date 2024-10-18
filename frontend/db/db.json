@@ -24,15 +24,15 @@
   "people": [
     {
       "id": "aca6",
-      "name": "Gabo",
+      "name": "Fulano",
       "birthDate": "1998-04-12",
       "gender": "Masculino",
       "ethnicity": "Parda",
-      "profession": "Professor/Estudante"
+      "profession": "Professor"
     },
     {
       "id": "606e",
-      "name": "Eagle",
+      "name": "Ciclano",
       "birthDate": "2005-01-29",
       "gender": "Masculino",
       "ethnicity": "Parda",
@@ -40,27 +40,27 @@
     },
     {
       "id": "b695",
-      "name": "Ilan",
+      "name": "Beltrana",
       "birthDate": "2003-05-27",
-      "gender": "Masculino",
+      "gender": "Feminino",
       "ethnicity": "Branca",
       "profession": "Designer"
     },
     {
       "id": "1d5e",
-      "name": "Portela",
+      "name": "Fulano",
       "birthDate": "2000-04-03",
-      "gender": "Masculino",
-      "ethnicity": "Branca",
-      "profession": "Testador de Colchões"
+      "gender": "Outro",
+      "ethnicity": "Negra",
+      "profession": "Astronauta"
     },
     {
-      "id": "7b51",
-      "name": "Giovanna",
-      "birthDate": "2003-05-25",
-      "gender": "Feminino",
-      "ethnicity": "Branca",
-      "profession": "Designer"
+      "id": "8ca1",
+      "name": "Tetrano",
+      "birthDate": "1990-02-05",
+      "gender": "Outro",
+      "ethnicity": "Indigena",
+      "profession": "Engenharia"
     }
   ]
 }

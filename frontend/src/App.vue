@@ -23,9 +23,3 @@
   </main>
   <MyFooter />
 </template>
-
-<style>
-  main{
-    background-image: linear-gradient(to right, var(--cor-2), var(--cor-4), var(--cor-5));
-  }
-</style>
