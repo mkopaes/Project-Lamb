@@ -34,7 +34,7 @@ PHP e SplitPHP
 ```
 2. Navegue para o diretório do backend
 ```bash
-  cd ../backend
+  cd .\Project-Lamb\backend\
 ```
 3. Inicie o servidor PHP
 ```bash
