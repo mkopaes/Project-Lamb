@@ -81,7 +81,6 @@
       <button class="new-register-btn">Adicionar novo cadastro</button>
     </router-link>
   </section>
-  <router-link to="/" class="go-back">Voltar</router-link>
 </template>
 
 <style scoped>
