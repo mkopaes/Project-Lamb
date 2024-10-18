@@ -1,5 +1,4 @@
-# Nome do Projeto
-Project-Lamb
+# Project-Lamb
 
 ## Descrição
 Este é um sistema simples para a realização de operações CRUD, utilizando o conceito de API RESTful, utilizando as seguintes tecnologias: JavaScript e VueJS
