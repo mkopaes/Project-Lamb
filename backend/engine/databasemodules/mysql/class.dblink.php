@@ -31,6 +31,7 @@ use Exception;
 use \engine\exceptions\DatabaseException;
 use \mysqli;
 use \mysqli_sql_exception;
+use \DateTime;
 
 /**
  * Class Dblink
@@ -72,6 +73,18 @@ class Dblink
    */
   private $isGetConnectionInvoked;
 
+  /**
+   * @var string $dbUserName
+   * Stores the current database connection's username.
+   */
+  private $dbUserName;
+
+  /**
+   * @var string $dbUserPass
+   * Stores the current database connection's password.
+   */
+  private $dbUserPass;
+
   /** 
    * Changes MySQL report configs, starts the properties with their initial values, then returns an object of type Dblink(instantiate the class).
    * 
@@ -89,6 +102,21 @@ class Dblink
   }
 
   /** 
+   * Returns a string representation of this class for printing purposes.
+   * 
+   * @return string 
+   */
+  public final function __toString()
+  {
+    $dbType = DBTYPE;
+    $dbHost = DBHOST;
+    $dbPort = DBPORT;
+    $dbName = DBNAME;
+
+    return "class:Dblink(type:{$dbType}, Host:{$dbHost}, Port:{$dbPort}, database:{$dbName}, Connection:{$this->currentConnectionName}, User:{$this->dbUserName}, Password:{$this->dbUserPass})";
+  }
+
+  /** 
    * Disconnects all currently open database connections.
    * When the instance of the class is destroyed, PHP runs this method automatically.
    * 
@@ -96,9 +124,10 @@ class Dblink
    */
   public final function __destruct()
   {
-    foreach ($this->connections as $cnnName => $cnn) {
-      $this->disconnect($cnnName);
-    }
+    if (!empty($this->connections))
+      foreach ($this->connections as $cnnName => $cnn) {
+        $this->disconnect($cnnName);
+      }
   }
 
   /** 
@@ -182,6 +211,7 @@ class Dblink
       $res = $this->connections[$this->currentConnectionName]->query($sqlobj->sqlstring);
     } catch (mysqli_sql_exception $ex) {
       if ($currentTry < DB_WORK_AROUND_FACTOR) {
+        sleep(1);
         $res = $this->runsql($sqlobj, $currentTry + 1);
         return;
       } else {
@@ -193,10 +223,8 @@ class Dblink
 
     if ($res === true || $res === false) {
       if (strpos(strtoupper($sqlobj->sqlstring), 'INSERT') !== false) {
-        $this->lastresult = $this->connections[$this->currentConnectionName]->insert_id;
         $ret = $this->connections[$this->currentConnectionName]->insert_id;
       } else {
-        $this->lastresult = $res;
         $ret = mysqli_affected_rows($this->connections[$this->currentConnectionName]);
       }
     } else {
@@ -297,58 +325,24 @@ class Dblink
    * @param mixed $dataset
    * @return mixed 
    */
-  public function escapevar($dataset)
+  public function escapevar(&$dataset)
   {
     if (!$this->isGetConnectionInvoked) throw new Exception("You must invoke getConnection() before perform this operation");
 
-    if (is_null($dataset))
-      return $dataset;
+    if (is_null($dataset)) return null;
 
-    if (is_array($dataset)) {
-      foreach ($dataset as $key => $data) {
-        if (is_null($data))
-          continue;
-
-        if (!is_numeric($data) && !is_array($data))
-          $dataset[$key] = mysqli_real_escape_string($this->connections[$this->currentConnectionName], $data);
-        elseif (is_array($data)) {
-          foreach ($data as $k => $d) {
-            if (is_null($d))
-              continue;
-
-            if (!is_numeric($d))
-              $dataset[$key][$k] = mysqli_real_escape_string($this->connections[$this->currentConnectionName], $d);
-            else {
-              if (is_float($d))
-                $dataset[$key][$k] = (float) $dataset[$key][$k];
-              elseif (is_int($d))
-                $dataset[$key][$k] = (int) $dataset[$key][$k];
-            }
-          }
-        }
+    elseif (is_array($dataset) || gettype($dataset) === "object") {
+      foreach ($dataset as &$data) {
+        $this->getConnection('writer')->escapevar($data);
       }
-    } elseif (gettype($dataset) === "object") {
-      foreach ($dataset as $key => $data) {
-        if (is_null($data))
-          continue;
+    } elseif (is_string($dataset) && !is_numeric($dataset)) $dataset = mysqli_real_escape_string($this->connections[$this->currentConnectionName], $dataset);
 
-        if (!is_numeric($data))
-          $dataset->$key = mysqli_real_escape_string($this->connections[$this->currentConnectionName], $data);
-        else {
-          if (is_float($data))
-            $dataset->$key = (float) $dataset->$key;
-          elseif (is_int($data))
-            $dataset->$key = (int) $dataset->$key;
-        }
-      }
-    } elseif (!is_numeric($dataset)) {
-      $dataset = mysqli_real_escape_string($this->connections[$this->currentConnectionName], $dataset);
-    } elseif (is_float($dataset)) {
-      $dataset = (float) $dataset;
-    } elseif (is_int($dataset)) {
-      $dataset = (int) $dataset;
-    }
+    elseif (is_float($dataset)) $dataset = (float) $dataset;
+
+    elseif (is_int($dataset)) $dataset = (int) $dataset;
+
     $this->isGetConnectionInvoked = false;
+
     return $dataset;
   }
 
@@ -362,19 +356,24 @@ class Dblink
   private function connect(int $currentTry = 1)
   {
     if ($this->currentConnectionName == 'writer') {
-      $dbUsername = DBUSER_MAIN;
-      $dbUserpass = DBPASS_MAIN;
+      $this->dbUserName = DBUSER_MAIN;
+      $this->dbUserPass = DBPASS_MAIN;
     } elseif ($this->currentConnectionName == 'reader') {
-      $dbUsername = DBUSER_READONLY;
-      $dbUserpass = DBPASS_READONLY;
+      $this->dbUserName = DBUSER_READONLY;
+      $this->dbUserPass = DBPASS_READONLY;
     } else {
       throw new Exception("Invalid Database connection mode.");
     }
 
     try {
-      $connection = new mysqli(DBHOST, $dbUsername, $dbUserpass, DBNAME);
+      $connection = new mysqli(DBHOST, $this->dbUserName, $this->dbUserPass, DBNAME);
+
+      //Setup database's settings per connection:
+      mysqli_set_charset($connection, DB_CHARSET);
+      $this->syncMysqlTimezone($connection);
     } catch (mysqli_sql_exception $ex) {
       if ($currentTry < DB_WORK_AROUND_FACTOR) {
+        sleep(1);
         $connection = $this->connect($currentTry + 1);
       } else {
         $sqlState = "Only for PHP 8 or >";
@@ -384,5 +383,18 @@ class Dblink
       }
     }
     return $connection;
+  }
+
+  private function syncMysqlTimezone($cnn)
+  {
+    $now = new DateTime();
+    $mins = $now->getOffset() / 60;
+    $sgn = ($mins < 0 ? -1 : 1);
+    $mins = abs($mins);
+    $hrs = floor($mins / 60);
+    $mins -= $hrs * 60;
+    $offset = sprintf('%+d:%02d', $hrs * $sgn, $mins);
+
+    $cnn->query("SET time_zone='{$offset}';");
   }
 }

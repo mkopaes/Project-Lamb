@@ -11,7 +11,7 @@
   const router = useRouter();
   const route = useRoute();
 
-  const person = ref({
+  const person = ({
     name: '',
     birth_date: '',
     gender: '',
@@ -20,32 +20,27 @@
   });  
 
   const id = route.params.id;
-  console.log(id);
-  // const isEditing = (route.params.isEditing || false);
 
   // ------- Methods
   onMounted(async () => {
-    if(id){
       const personData = await getPersonById(id)
       person.value = personData
-      console.log(person.value);
-    }
   });
 
   const handleSubmit = async () => {
     try {
-      await createPerson(person.value);
+      await updatePerson(id, person.value);
     } catch (error) {
-      console.error('Erro ao criar pessoa:', error);
+      console.error('Erro ao atualizar pessoa:', error);
     }
     router.push({ name: 'peopleView' })
-  };
+  }; 
 </script>
 
 <template>
   <section class="content">
     <section class="title">
-      <h1>Realizar Cadastro</h1>
+      <h1>Editar Cadastro</h1>
     </section>
     <form class="person-form"  @submit.prevent="handleSubmit">
       <div class="row">
@@ -88,7 +83,7 @@
       </div>
       <div class="row">
         <div class="input-container">
-          <button type="submit" id="submit" name="submit">Cadastrar</button>
+          <button type="submit" id="submit" name="submit">Atualizar</button>
         </div>
       </div>
     </form>

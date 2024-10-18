@@ -7,9 +7,9 @@
 <template>
   <div class="wrapper">
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/people/new">Cadastrar</RouterLink>
-        <RouterLink to="/people">Lista</RouterLink>
+        <router-link :to="{ name: 'home' }">Home</router-link>
+        <router-link :to="{ name: 'addPerson' }">Cadastrar</router-link>
+        <router-link :to="{ name: 'peopleView'}">Lista</router-link>
       </nav>
   </div>
 </template>

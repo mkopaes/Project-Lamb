@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:8000/api';
 
 // API RESTfull -> CRUD
 
@@ -23,20 +23,6 @@ export const createPerson = async (personData) => {
 };
 
 // ------- R - READ
-export const getAttributes = async () => {
-  try {
-    const response = await fetch(`${API_URL}/attributes`);
-    if (!response.ok) {
-      throw new Error('Erro ao buscar atributos');
-    }
-    return await response.json();
-
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-};
-
 export const getPeople = async () => {
   try {
     const response = await fetch(`${API_URL}/people`);

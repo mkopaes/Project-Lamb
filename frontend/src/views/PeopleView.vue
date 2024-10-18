@@ -1,24 +1,18 @@
 <script setup>
   import { ref, onMounted } from 'vue';
   import { useRouter } from 'vue-router';
-  import  {getAttributes, getPeople, deletePerson } from '../services/apiService';
+  import { getPeople, deletePerson } from '../services/apiService';
   
   defineOptions({
-    name: 'PeopleView',
+    name: 'peopleView',
   })
 
   // ------- Data
   const router = useRouter();
-  const attributes = ref([]);
   const people = ref([]);
 
   // ------- Methods
   onMounted(async () => {
-    try {
-      attributes.value = await getAttributes();
-    } catch (error) {
-      console.error('Erro ao carregar atributos:', error);
-    }
     try {
       people.value = await getPeople();
     } catch (error) {
@@ -30,12 +24,11 @@
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
     return new Date(dateString).toLocaleDateString('pt-BR', options)
   }
- 
-  const editPerson = (id) => {
+
+  const toEditPerson = (id) => {
     router.push({
-      name: 'EditPerson',
-      params: { id },
-      query: { isEditing: 'true' }
+      name: 'editPerson',
+      params: { id }
     })
   }
 
@@ -47,6 +40,12 @@
       console.error('Erro ao deletar pessoa:', error);
     }
   };
+
+  const toCadastrar = () => {
+    router.push({
+      name: 'addPerson',
+    })
+  }
 </script>
 
 <template>
@@ -57,29 +56,31 @@
     <table class="stackable-table">
       <thead>
         <tr>
-          <th v-for="attribute in attributes" :key="attribute.id">{{ attribute.type }}</th>
+          <th>Nome</th>
+          <th>Nascimento</th>
+          <th>Sexo</th>
+          <th>Etnia</th>
+          <th>Profissão</th>
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>  
         <tr v-for="person in people" :key="person.id">
           <td data-label="Nome">{{ person.name }}</td>
-          <td data-label="Nascimento">{{ formatDate(person.birthDate) }}</td>
+          <td data-label="Nascimento">{{ formatDate(person.birth_date) }}</td>
           <td data-label="Sexo">{{ person.gender }}</td>
           <td data-label="Etnia">{{ person.ethnicity }}</td>
           <td data-label="Profissão">{{ person.profession }}</td>
           <td data-label="Ações">
             <div class="btn-container">
-              <button @click="editPerson(person.id)">Editar</button>
+              <button @click="toEditPerson(person.id)">Editar</button>
               <button @click="removePerson(person.id)">Deletar</button>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <router-link to="/people/new">
-      <button class="new-register-btn">Adicionar novo cadastro</button>
-    </router-link>
+    <button @click="toCadastrar()" class="new-register-btn">Adicionar novo cadastro</button>
   </section>
 </template>
 

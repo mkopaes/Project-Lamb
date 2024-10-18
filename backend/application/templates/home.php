@@ -49,12 +49,11 @@
                 <p><?= $description ?></p>
                 <h2>Endpoints disponíveis</h2>
                 <ul>
-                    <li><strong>GET /people</strong> - Retorna todas as pessoas cadastradas</li>
-                    <li><strong>GET /people/id</strong> - Retorna o cadastro da pessoa especificada por id</li>
-                    <li><strong>GET /people/attributes</strong> - Retorna os campos de atributos disponíveis no cadastro</li>
-                    <li><strong>POST /people</strong> - Adiciona uma nova pessoa</li>
-                    <li><strong>PUT /people/id</strong> - Atualiza o cadastro da pessoa especificada por id</li>
-                    <li><strong>DELETE /people/id</strong> - Remove o cadastro da pessoa especificada por id</li>
+                    <li><strong>GET api/people</strong> - Retorna todas as pessoas cadastradas</li>
+                    <li><strong>GET api/people/id</strong> - Retorna o cadastro da pessoa especificada por id</li>
+                    <li><strong>POST api/people</strong> - Adiciona uma nova pessoa</li>
+                    <li><strong>PUT api/people/id</strong> - Atualiza o cadastro da pessoa especificada por id</li>
+                    <li><strong>DELETE api/people/id</strong> - Remove o cadastro da pessoa especificada por id</li>
                 </ul>
             </section>
         </section>

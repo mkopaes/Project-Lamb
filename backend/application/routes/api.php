@@ -2,16 +2,17 @@
 
 namespace application\routes;
 
-use engine\RestService;
+use engine\WebService;
+use engine\Request;
 
-class API extends RestService
+class API extends WebService
 {
   public function init()
   {
     $this->setAntiXsrfValidation(false);
 
     // Home Page Endpoints:
-		$this->addEndpoint('GET', '/home', function ($params) {
+		$this->addEndpoint('GET', '/home', function () {
       $title = 'Boas-vindas';
       $description = $this->getService('APIService')->apiDescription();
 
@@ -23,8 +24,7 @@ class API extends RestService
   // ------- C - CREATE
      // Endpoint POST para adicionar uma nova pessoa
      $this->addEndpoint('POST', '/people', function ($params) {
-      $data = 1; // Coletar os dados enviados no corpo da requisição
-      $newPerson = $this->getService('people')->createPerson($data);
+      $newPerson = $this->getService('APIService')->createPerson($params);
 
       return $this->response
         ->withStatus(201)
@@ -32,28 +32,10 @@ class API extends RestService
     });
 
   // ------- R - READ
-    // Endpoint GET para listar todos atributos do cadastro
-    $this->addEndpoint('GET', '/attributes', function ($params) {
-      $attributes = $this->getService('APIService')->getAttributes();
-
-      return $this->response
-      ->withStatus(200)
-      ->withData($attributes);
-    });
-
-    // Endpoint GET para listar todas as pessoas
-    $this->addEndpoint('GET', '/people', function ($params) {
-      $people = $this->getService('APIService')->getPeople();
-
-      return $this->response
-      ->withStatus(200)
-      ->withData($people);
-    });
-
     // Endpoint GET para buscar uma pessoa por ID
-    $this->addEndpoint('GET', '/people/{id}', function ($params) {
+    $this->addEndpoint('GET', '/people/?id?', function ($params) {
       $id = $params['id'];
-      $person = $this->getService('people')->getPersonById($id);
+      $person = $this->getService('APIService')->getPersonById($id);
 
       if ($person) {
         return $this->response
@@ -66,13 +48,21 @@ class API extends RestService
       }
     });
 
+    // Endpoint GET para listar todas as pessoas
+    $this->addEndpoint('GET', '/people', function () {
+      $people = $this->getService('APIService')->getPeople();
+
+      return $this->response
+      ->withStatus(200)
+      ->withData($people);
+    });
+
+
   // ------- U - UPDATE
     // Endpoint PUT para atualizar uma pessoa existente
-    $this->addEndpoint('PUT', '/people/{id}', function ($params) {
+    $this->addEndpoint('PUT', '/people/?id?', function ($params) {
       $id = $params['id'];
-      $data = 1; // Coletar os dados enviados no corpo da requisição
-
-      $updatedPerson = $this->getService('people')->updatePerson($id, $data);
+      $updatedPerson = $this->getService('APIService')->updatePerson($id, $params);
 
       if ($updatedPerson) {
         return $this->response
@@ -87,10 +77,10 @@ class API extends RestService
 
   // ------- D - DELETE
     // Endpoint DELETE para remover uma pessoa
-    $this->addEndpoint('DELETE', '/people/{id}', function ($params) {
+    $this->addEndpoint('DELETE', '/people/?id?', function ($params) {
       $id = $params['id'];
 
-      $deleted = $this->getService('people')->deletePerson($id);
+      $deleted = $this->getService('APIService')->deletePerson($id);
 
       if ($deleted) {
         return $this->response
