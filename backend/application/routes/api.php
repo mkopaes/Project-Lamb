@@ -3,7 +3,6 @@
 namespace application\routes;
 
 use engine\RestService;
-use application\services\APIService;
 
 class API extends RestService
 {
@@ -22,7 +21,6 @@ class API extends RestService
     });
 
   // ------- C - CREATE
-
      // Endpoint POST para adicionar uma nova pessoa
      $this->addEndpoint('POST', '/people', function ($params) {
       $data = 1; // Coletar os dados enviados no corpo da requisição

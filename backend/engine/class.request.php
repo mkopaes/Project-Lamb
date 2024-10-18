@@ -71,7 +71,7 @@ class Request
   {
     $urlElements = explode("/", str_replace(strrchr(urldecode($uri), "?"), "", urldecode($uri)));
     array_shift($urlElements);
-    
+
     // If no route is found under URL, set it as default route:
     if (empty($urlElements[0])) {
       $urlElements = explode('/', str_replace(strrchr(urldecode(DEFAULT_ROUTE), "?"), "", urldecode(DEFAULT_ROUTE)));
