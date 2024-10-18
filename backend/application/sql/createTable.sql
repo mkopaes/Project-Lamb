@@ -1,6 +1,6 @@
 -- Database used: lamb_db
 
-CREATE TABLE registered_people (
+CREATE TABLE people (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     birth_date DATE NOT NULL,
