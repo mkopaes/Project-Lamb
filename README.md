@@ -16,15 +16,15 @@ Este é um sistema simples para a realização de operações CRUD, utilizando o
 1. Clone o repositório
 ```bash
    git clone https://github.com/mkopaes/Project-Lamb.git
-
+```
 2. Navegue até o diretório do projeto
 ```bash
   cd Project-Lamb
-
+```
 3. Instale as dependências
 ```bash
   npm install
-
+```
 ## Uso
 
 
