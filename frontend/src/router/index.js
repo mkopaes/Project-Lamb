@@ -14,7 +14,6 @@ const routes = [
     path: '/people',
     name: 'peopleView',
     component: PeopleView
-    // component: () => import('../views/PeopleView.vue')
   },
   {
     path: '/people/new',

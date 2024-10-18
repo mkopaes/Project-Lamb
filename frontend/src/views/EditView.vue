@@ -1,40 +1,44 @@
 <script setup>
   import { ref, onMounted } from 'vue';
   import { useRouter, useRoute } from'vue-router';
-  import { getPersonById, createPerson, updatePerson} from '../services/apiService';
+  import { getPersonById, updatePerson} from '../services/apiService';
 
   defineOptions({
-    name: 'FormView'
+    name: 'EditView'
   })
 
   // ------- Data
   const router = useRouter();
   const route = useRoute();
 
-  const person = ({
+  const person = ref({
     name: '',
     birth_date: '',
     gender: '',
     ethnicity: '',
     profession: '',
-  });  
-
-  const id = route.params.id;
-
-  // ------- Methods
-  onMounted(async () => {
-      const personData = await getPersonById(id)
-      person.value = personData
   });
 
-  const handleSubmit = async () => {
+  // ------- Methods
+  const fetchPerson = async () => {
     try {
-      await updatePerson(id, person.value);
+      const response = await getPersonById(route.params.id);
+      person.value = response[0];
     } catch (error) {
-      console.error('Erro ao atualizar pessoa:', error);
+      console.error('Erro ao buscar a pessoa:', error);
     }
-    router.push({ name: 'peopleView' })
-  }; 
+  };
+
+  const requetUpdatePerson = async () => {
+    try {
+      await updatePerson(route.params.id, person.value);
+      router.push({ name: 'peopleView' });
+    } catch (error) {
+      console.error('Erro ao atualizar a pessoa:', error);
+    }
+  };
+
+  onMounted(fetchPerson);
 </script>
 
 <template>
@@ -42,7 +46,7 @@
     <section class="title">
       <h1>Editar Cadastro</h1>
     </section>
-    <form class="person-form"  @submit.prevent="handleSubmit">
+    <form class="person-form"  @submit.prevent="requetUpdatePerson">
       <div class="row">
         <div class="input-container">
           <label for="name">Nome </label>

@@ -1,7 +1,7 @@
 <script setup>
   import { ref, onMounted } from 'vue';
   import { useRouter, useRoute } from'vue-router';
-  import { getPersonById, createPerson, updatePerson} from '../services/apiService';
+  import { getPersonById, createPerson} from '../services/apiService';
 
   defineOptions({
     name: 'FormView'
@@ -9,7 +9,6 @@
 
   // ------- Data
   const router = useRouter();
-  const route = useRoute();
 
   const person = ref({
     name: '',
@@ -19,19 +18,9 @@
     profession: '',
   });  
 
-  const id = route.params.id;
-  console.log(id);
   // const isEditing = (route.params.isEditing || false);
 
   // ------- Methods
-  onMounted(async () => {
-    if(id){
-      const personData = await getPersonById(id)
-      person.value = personData
-      console.log(person.value);
-    }
-  });
-
   const handleSubmit = async () => {
     try {
       await createPerson(person.value);

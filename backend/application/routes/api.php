@@ -36,7 +36,6 @@ class API extends WebService
     $this->addEndpoint('GET', '/people/?id?', function ($params) {
       $id = $params['id'];
       $person = $this->getService('APIService')->getPersonById($id);
-
       if ($person) {
         return $this->response
           ->withStatus(200)
